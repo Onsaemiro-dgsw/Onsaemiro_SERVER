@@ -24,6 +24,9 @@ repositories {
 }
 
 dependencies {
+	implementation 'software.amazon.awssdk:core:2.15.13'
+	implementation 'software.amazon.awssdk:s3:2.15.13'
+
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"

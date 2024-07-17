@@ -3,6 +3,7 @@ package com.dgsw.onsaemiro.domain.ethnic.presentation;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.request.EthnicRequest;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicListResponse;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicResponse;
+import com.dgsw.onsaemiro.global.cloud.exception.FileUploadException;
 import com.dgsw.onsaemiro.global.common.dto.request.PageRequest;
 import com.dgsw.onsaemiro.global.common.dto.response.Response;
 import com.dgsw.onsaemiro.global.common.dto.response.ResponseData;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.dgsw.onsaemiro.domain.ethnic.service.EthnicService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -56,6 +59,18 @@ public class EthnicController {
             @RequestParam String name
     ){
         return ethnicService.ethnicList(request,name);
+    }
+
+    @PostMapping("/{id}/thumbnail")
+    public Response fileUpload(
+            @RequestParam("file") MultipartFile file,
+            @PathVariable Long id
+    ) {
+        try {
+            return ethnicService.saveThumbnail(file, id);
+        } catch (IOException e) {
+            throw FileUploadException.EXCEPTION;
+        }
     }
 
 }
