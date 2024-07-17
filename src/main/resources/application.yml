@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: onsaemiro
+  datasource:
+    url: jdbc:mysql://onsaemiro-instance.c96ms6m44sen.ap-northeast-2.rds.amazonaws.com:3306/onsaemiro_database
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: onsaemiro_user
+    password: user1234!
