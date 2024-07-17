@@ -9,6 +9,14 @@ spring:
     username: ${secrets.DB_USERNAME}
     password: ${secrets.DB_PASSWORD}
 
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
 springdoc:
   api-docs:
     enabled: true
@@ -23,3 +31,9 @@ springdoc:
   swagger-ui:
     operationsSorter: method
     path: /swagger-ui.html
+
+application:
+  cloud:
+    accessKey: ${secrets.AWS_ACCESS_KEY}
+    secretAccessKey: ${secrets.AWS_SECRET_KEY}
+    bucketName: ${secrets.BUCKET_NAME}

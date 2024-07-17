@@ -3,6 +3,7 @@ package com.dgsw.onsaemiro.domain.ethnic.presentation;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.request.EthnicRequest;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicListResponse;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicResponse;
+import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.ThumbnailResponse;
 import com.dgsw.onsaemiro.global.cloud.exception.FileUploadException;
 import com.dgsw.onsaemiro.global.common.dto.request.PageRequest;
 import com.dgsw.onsaemiro.global.common.dto.response.Response;
@@ -62,6 +63,7 @@ public class EthnicController {
     }
 
     @PostMapping("/{id}/thumbnail")
+    @Operation(summary = "썸네일 저장", description = "민족 썸네일을 저장합니다.")
     public Response fileUpload(
             @RequestParam("file") MultipartFile file,
             @PathVariable Long id
@@ -71,6 +73,18 @@ public class EthnicController {
         } catch (IOException e) {
             throw FileUploadException.EXCEPTION;
         }
+    }
+
+    @GetMapping("/thumbnail")
+    @Operation(summary = "썸네일 리스트 조회", description = "썸네일 리스트를 조회합니다.")
+    public ResponseData<List<ThumbnailResponse>> getThumbnails(@ModelAttribute PageRequest request){
+        return ethnicService.getThumbnails(request);
+    }
+
+    @GetMapping("/{id}/thumbnail")
+    @Operation(summary = "썸네일 리스트 조회", description = "썸네일 리스트를 조회합니다.")
+    public ResponseData<List<ThumbnailResponse>> getThumbnailsById(@ModelAttribute List<Long> idList){
+        return ethnicService.getThumbnails(idList);
     }
 
 }

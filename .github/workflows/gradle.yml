@@ -26,7 +26,10 @@ jobs:
         spring.datasource.url: ${{ secrets.DB_URL }}
         spring.datasource.username: ${{ secrets.DB_USERNAME }}
         spring.datasource.password: ${{ secrets.DB_PASSWORD }}
-        application.jwt.secretKey: ${{ secrets.JWT_SECRET_KEY }}
+        application.cloud.accessKey: ${{ secrets.AWS_ACCESS_KEY }}
+        application.cloud.secretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
+        application.cloud.bucketName: ${{ secrets.BUCKET_NAME }}
+
 
     - name: set chmod
       run: chmod +x ./gradlew

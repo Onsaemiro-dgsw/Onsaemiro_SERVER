@@ -7,6 +7,7 @@ import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.request.EthnicRequest;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicListResponse;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicResponse;
 import com.dgsw.onsaemiro.domain.ethnic.domain.Ethnic;
+import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.ThumbnailResponse;
 import com.dgsw.onsaemiro.global.cloud.service.S3Util;
 import com.dgsw.onsaemiro.global.common.dto.request.PageRequest;
 import com.dgsw.onsaemiro.global.common.dto.response.Response;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,34 +56,33 @@ public class EthnicService {
     }
 
     public Response saveThumbnail(MultipartFile file, Long ethnicId) throws IOException {
-        String url = s3Util.uploadFile(generateType4UUID(),file.getInputStream());
+        UUID uuid = UUID.randomUUID();
+        String url = s3Util.uploadFile(uuid,file.getInputStream());
 
         String fileName = file.getOriginalFilename();
         thumbnailRepository.save(Thumbnail.builder()
-                .url(url)
                 .name(fileName)
                 .size(file.getSize())
-                .extension(getExtension(fileName))
-                .ethnicId(ethnicId).build());
+                .extension(fileName.substring(fileName.lastIndexOf(".") + 1))
+                .ethnicId(ethnicId)
+                .url(url).build());
         return Response.ok("파일 업로드 성공");
     }
 
-    /**
-     * UUID v4를 생성합니다.
-     * @return
-     */
-    private static String generateType4UUID() {
-        // 버전 4 UUID 생성하기
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+    public ResponseData<List<ThumbnailResponse>> getThumbnails(PageRequest request) {
+        List<ThumbnailResponse> thumbnailList = thumbnailRepository.thumbnailList(request);
+
+        return ResponseData.ok("썸네일 리스트 조회 성공", thumbnailList);
     }
 
-    /**
-     * 파일 확장자를 추출합니다.
-     * @return
-     */
-    private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    public ResponseData<List<ThumbnailResponse>> getThumbnails(List<Long> idList) {
+        List<ThumbnailResponse> thumbnailList = idList.stream()
+                .map(id -> ThumbnailResponse.builder()
+                        .url(thumbnailRepository.findUrlById(id))
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseData.ok("썸네일 리스트 조회 성공", thumbnailList);
     }
 
 }

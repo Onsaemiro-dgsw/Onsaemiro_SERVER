@@ -29,4 +29,7 @@ public class Word {
     @Column(nullable = false)
     private String description;
 
+    @Column
+    private Integer seq;
+
 }

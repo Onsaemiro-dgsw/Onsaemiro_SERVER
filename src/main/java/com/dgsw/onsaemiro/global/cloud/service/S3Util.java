@@ -19,6 +19,8 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequ
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class S3Util {
 
     private final CloudProperties cloudProperties;
 
-    public String uploadFile(String uuid, InputStream inputStream)
+    public String uploadFile(UUID uuid, InputStream inputStream)
             throws AwsServiceException, SdkClientException {
 
         AwsBasicCredentials credentials = AwsBasicCredentials.create(cloudProperties.getAccessKey(), cloudProperties.getSecretAccessKey());
@@ -38,7 +40,7 @@ public class S3Util {
 
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket(cloudProperties.getBucketName())
-                .key(uuid)
+                .key(String.valueOf(uuid))
                 .build();
 
         try {
@@ -52,11 +54,11 @@ public class S3Util {
 
         GetObjectRequest objectRequest = GetObjectRequest.builder()
                 .bucket(cloudProperties.getBucketName())
-                .key(uuid)
+                .key(String.valueOf(uuid))
                 .build();
 
         GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-//                .signatureDuration(Duration.ofHours(1)) // The URL will expire in 10 minutes
+                .signatureDuration(Duration.ofDays(7)) // The URL will expire in 10 minutes
                 .getObjectRequest(objectRequest)
                 .build();
 

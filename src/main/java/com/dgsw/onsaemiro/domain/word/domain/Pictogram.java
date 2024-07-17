@@ -1,4 +1,4 @@
-package com.dgsw.onsaemiro.domain.ethnic.domain;
+package com.dgsw.onsaemiro.domain.word.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,12 +15,12 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_thumbnail")
+@Table(name = "tb_pictogram")
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Thumbnail {
+public class Pictogram {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +40,8 @@ public class Thumbnail {
 
     @Column(nullable = false)
     private String url;
+
+    @Column(nullable = false)
+    private Integer wordSeq;
 
 }
