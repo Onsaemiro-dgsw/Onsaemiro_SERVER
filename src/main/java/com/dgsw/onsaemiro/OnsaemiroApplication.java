@@ -9,5 +9,4 @@ public class OnsaemiroApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OnsaemiroApplication.class, args);
 	}
-	.
 }
