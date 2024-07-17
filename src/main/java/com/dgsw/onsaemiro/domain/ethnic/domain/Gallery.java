@@ -10,17 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.util.UUID;
 
 @Entity
-@Table(name = "tb_thumbnail")
-@Getter
-@NoArgsConstructor
-@Builder
+@Table(name = "tb_gallery") @Getter
+@NoArgsConstructor @Builder
 @AllArgsConstructor
-public class Thumbnail {
+public class Gallery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

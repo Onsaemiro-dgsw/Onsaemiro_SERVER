@@ -1,12 +1,11 @@
 package com.dgsw.onsaemiro.domain.word.service;
 
-import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.ThumbnailResponse;
 import com.dgsw.onsaemiro.domain.word.domain.Pictogram;
 import com.dgsw.onsaemiro.domain.word.domain.Word;
 import com.dgsw.onsaemiro.domain.word.domain.repository.PictogramRepository;
 import com.dgsw.onsaemiro.domain.word.domain.repository.WordRepository;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SavePictogramRequest;
-import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SaveWordListRequest;
+import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SaveWordRequest;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.response.PictogramResponse;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.response.WordResponse;
 import com.dgsw.onsaemiro.global.cloud.exception.FileUploadException;
@@ -30,9 +29,9 @@ public class WordService {
     private final PictogramRepository pictogramRepository;
     private final S3Util s3Util;
 
-    public Response saveWords(SaveWordListRequest request){
+    public Response saveWords(List<SaveWordRequest> requests){
         // 단어를 하나씩 저장하는 로직
-        request.getWords().stream()
+        requests.stream()
                 .forEach(word -> wordRepository.save(Word.builder()
                                     .word(word.getWord())
                                     .description(word.getDescription())

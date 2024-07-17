@@ -81,10 +81,29 @@ public class EthnicController {
         return ethnicService.getThumbnails(request);
     }
 
-    @GetMapping("/{id}/thumbnail")
+    @GetMapping("/thumbnail/id")
     @Operation(summary = "썸네일 리스트 조회", description = "썸네일 리스트를 조회합니다.")
     public ResponseData<List<ThumbnailResponse>> getThumbnailsById(@ModelAttribute List<Long> idList){
         return ethnicService.getThumbnails(idList);
+    }
+
+    @GetMapping("/gallery")
+    @Operation(summary = "민족 사진 리스트 조회", description = "민족 사진 리스트를 조회합니다.")
+    public ResponseData<List<ThumbnailResponse>> getGallery(){
+        return ethnicService.getGallery();
+    }
+
+    @PostMapping("/{id}/gallery")
+    @Operation(summary = "썸네일 저장", description = "민족 썸네일을 저장합니다.")
+    public Response saveGallery(
+            @RequestParam("file") MultipartFile file,
+            @PathVariable Long id
+    ) {
+        try {
+            return ethnicService.saveGallery(file, id);
+        } catch (IOException e) {
+            throw FileUploadException.EXCEPTION;
+        }
     }
 
 }

@@ -1,8 +1,7 @@
 package com.dgsw.onsaemiro.domain.word.presentation;
 
-import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.ThumbnailResponse;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SavePictogramRequest;
-import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SaveWordListRequest;
+import com.dgsw.onsaemiro.domain.word.presentation.dto.request.SaveWordRequest;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.response.PictogramResponse;
 import com.dgsw.onsaemiro.domain.word.presentation.dto.response.WordResponse;
 import com.dgsw.onsaemiro.domain.word.service.WordService;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,8 +34,8 @@ public class WordController {
 
     @PostMapping("")
     @Operation(summary = "단어 리스트 저장", description = "단어 리스트를 저장합니다.")
-    public Response saveWords(@RequestBody SaveWordListRequest request) {
-        return wordService.saveWords(request);
+    public Response saveWords(@RequestBody List<SaveWordRequest> requests) {
+        return wordService.saveWords(requests);
     }
 
     @GetMapping("")

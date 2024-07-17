@@ -1,13 +1,17 @@
 package com.dgsw.onsaemiro.domain.ethnic.service;
 
+import com.dgsw.onsaemiro.domain.ethnic.domain.Gallery;
 import com.dgsw.onsaemiro.domain.ethnic.domain.Thumbnail;
+import com.dgsw.onsaemiro.domain.ethnic.domain.repository.GalleryRepository;
 import com.dgsw.onsaemiro.domain.ethnic.domain.repository.ThumbnailRepository;
 import com.dgsw.onsaemiro.domain.ethnic.exception.EthnicNotFoundException;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.request.EthnicRequest;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicListResponse;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.EthnicResponse;
 import com.dgsw.onsaemiro.domain.ethnic.domain.Ethnic;
+import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.NoticeId;
 import com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response.ThumbnailResponse;
+import com.dgsw.onsaemiro.domain.word.presentation.dto.response.PictogramResponse;
 import com.dgsw.onsaemiro.global.cloud.service.S3Util;
 import com.dgsw.onsaemiro.global.common.dto.request.PageRequest;
 import com.dgsw.onsaemiro.global.common.dto.response.Response;
@@ -28,16 +32,18 @@ public class EthnicService {
     private final EthnicRepository ethnicRepository;
     private final S3Util s3Util;
     private final ThumbnailRepository thumbnailRepository;
+    private final GalleryRepository galleryRepository;
 
     // 민족 생성
-    public Response createEthnic(EthnicRequest request){
+    public ResponseData<NoticeId> createEthnic(EthnicRequest request){
         Ethnic ethnic = Ethnic.builder()
                 .name(request.getName())
                 .locate(request.getLocate())
                 .content(request.getContent()).build();
 
         ethnicRepository.save(ethnic);
-        return Response.ok("민족 정보 저장을 성공했습니다.");
+        return ResponseData.ok("민족 정보 저장을 성공했습니다.", NoticeId.builder()
+                .id(ethnicRepository.findMaxId()).build());
     }
 
     // 민족 조회
@@ -69,6 +75,20 @@ public class EthnicService {
         return Response.ok("파일 업로드 성공");
     }
 
+    public Response saveGallery(MultipartFile file, Long ethnicId) throws IOException {
+        UUID uuid = UUID.randomUUID();
+        String url = s3Util.uploadFile(uuid,file.getInputStream());
+
+        String fileName = file.getOriginalFilename();
+        galleryRepository.save(Gallery.builder()
+                .name(fileName)
+                .size(file.getSize())
+                .extension(fileName.substring(fileName.lastIndexOf(".") + 1))
+                .ethnicId(ethnicId)
+                .url(url).build());
+        return Response.ok("파일 업로드 성공");
+    }
+
     public ResponseData<List<ThumbnailResponse>> getThumbnails(PageRequest request) {
         List<ThumbnailResponse> thumbnailList = thumbnailRepository.thumbnailList(request);
 
@@ -83,6 +103,16 @@ public class EthnicService {
                 .collect(Collectors.toList());
 
         return ResponseData.ok("썸네일 리스트 조회 성공", thumbnailList);
+    }
+
+    public ResponseData<List<ThumbnailResponse>> getGallery(){
+        List<ThumbnailResponse> galleryList = galleryRepository.findAll()
+                .stream().map(id -> ThumbnailResponse.builder()
+                        .url(id.getUrl())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseData.ok("갤러리 리스트 조회 성공", galleryList);
     }
 
 }

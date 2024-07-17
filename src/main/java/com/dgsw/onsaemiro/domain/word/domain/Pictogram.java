@@ -38,7 +38,7 @@ public class Pictogram {
     @Column(nullable = false,unique = true)
     private Long ethnicId;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 1024)
     private String url;
 
     @Column(nullable = false)
