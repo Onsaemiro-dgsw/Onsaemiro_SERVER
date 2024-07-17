@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class SaveWordRequest {
+    private Integer seq;
     private String word;
     private String description;
 }

@@ -10,26 +10,38 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 @Entity
-@Table(name = "tb_word")
+@Table(name = "tb_pictogram")
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Word {
+public class Pictogram {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String word;
+    private String name;
 
     @Column(nullable = false)
-    private String description;
+    private Long size;
 
-    @Column
-    private Integer seq;
+    @Column(nullable = false)
+    private String extension;
+
+    @Column(nullable = false,unique = true)
+    private Long ethnicId;
+
+    @Column(nullable = false,length = 1024)
+    private String url;
+
+    @Column(nullable = false)
+    private Integer wordSeq;
 
 }

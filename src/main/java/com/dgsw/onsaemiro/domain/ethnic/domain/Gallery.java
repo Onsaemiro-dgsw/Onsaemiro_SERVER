@@ -1,4 +1,4 @@
-package com.dgsw.onsaemiro.domain.word.domain;
+package com.dgsw.onsaemiro.domain.ethnic.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,24 +12,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_word")
-@Getter
-@NoArgsConstructor
-@Builder
+@Table(name = "tb_gallery") @Getter
+@NoArgsConstructor @Builder
 @AllArgsConstructor
-public class Word {
+public class Gallery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String word;
+    private String name;
 
     @Column(nullable = false)
-    private String description;
+    private Long size;
 
-    @Column
-    private Integer seq;
+    @Column(nullable = false)
+    private String extension;
+
+    @Column(nullable = false,unique = true)
+    private Long ethnicId;
+
+    @Column(nullable = false,length = 1024)
+    private String url;
 
 }

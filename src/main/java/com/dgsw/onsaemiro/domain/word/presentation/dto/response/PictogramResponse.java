@@ -7,9 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class WordResponse {
-    private Long id;
-    private String word;
-    private String description;
+public class PictogramResponse {
+    private String url;
     private Integer seq;
 }
