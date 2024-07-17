@@ -3,6 +3,8 @@ package com.dgsw.onsaemiro.global.common.dto.response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @Getter
 public class ResponseData<T> extends Response {
 

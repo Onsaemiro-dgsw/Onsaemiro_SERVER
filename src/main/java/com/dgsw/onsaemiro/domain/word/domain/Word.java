@@ -1,5 +1,4 @@
-package com.dgsw.onsaemiro.domain.entity;
-
+package com.dgsw.onsaemiro.domain.word.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,27 +12,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_ethnic")
+@Table(name = "tb_word")
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Ethnic {
+public class Word {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 민족 이름
     @Column(nullable = false)
-    private String name;
+    private String word;
 
-    // 현재 위치
     @Column(nullable = false)
-    private String locate;
-
-    // 설명
-    @Column(nullable = false)
-    private String history;
+    private String description;
 
 }

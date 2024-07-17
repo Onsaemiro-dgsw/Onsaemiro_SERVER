@@ -1,6 +1,6 @@
-package com.dgsw.onsaemiro.domain.dto;
+package com.dgsw.onsaemiro.domain.ethnic.presentation.dto.response;
 
-import com.dgsw.onsaemiro.domain.entity.Ethnic;
+import com.dgsw.onsaemiro.domain.ethnic.domain.Ethnic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +12,12 @@ public class EthnicResponse {
 
     private String name;
     private String locate;
-    private String history;
+    private String content;
 
     public static EthnicResponse of(Ethnic ethnic){
         return EthnicResponse.builder()
                 .name(ethnic.getName())
                 .locate(ethnic.getLocate())
-                .history(ethnic.getHistory()).build();
+                .content(ethnic.getContent()).build();
     }
 }
