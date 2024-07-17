@@ -1,13 +1,13 @@
 spring:
   profiles:
-    active: prod
+    active: local
   application:
     name: onsaemiro
   datasource:
-    url: ${secrets.DB_URL}
+    url: jdbc:mysql://onsaemiro-instance.c96ms6m44sen.ap-northeast-2.rds.amazonaws.com:3306/onsaemiro_database
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${secrets.DB_USERNAME}
-    password: ${secrets.DB_PASSWORD}
+    username: onsaemiro_user
+    password: user1234!
 
 springdoc:
   api-docs:
